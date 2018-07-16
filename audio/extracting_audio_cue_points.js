@@ -1,11 +1,12 @@
 const SpeechToTextV1 = require('watson-developer-cloud/speech-to-text/v1');
 const XLSX = require('xlsx'); 
+const fs = require('fs');
 
 const speech_to_text = new SpeechToTextV1({
-   username: '60cb2449-78a9-4b00-964d-ed08cb959fd1',
-   password: '5cq7yTWJRcfr'
+  username: "c0918f10-766d-4435-adc3-af2c8171eba9",
+  password: "45Ul2mQ0wS8i"
   });
-
+  
   fs.readdir("./audio/",function(err, files){
     if (err) {
        return console.error(err);
