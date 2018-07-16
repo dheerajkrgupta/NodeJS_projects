@@ -1,0 +1,15 @@
+{
+  "name": "cuepoints",
+  "version": "1.0.0",
+  "description": "",
+  "main": "points.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dheeraj",
+  "license": "ISC",
+  "dependencies": {
+    "watson-developer-cloud": "^3.7.0",
+    "xlsx": "^0.13.2"
+  }
+}

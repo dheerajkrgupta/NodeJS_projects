@@ -1,5 +1,5 @@
 const SpeechToTextV1 = require('watson-developer-cloud/speech-to-text/v1');
-const fs = require('fs');
+const XLSX = require('xlsx'); 
 
 const speech_to_text = new SpeechToTextV1({
    username: '60cb2449-78a9-4b00-964d-ed08cb959fd1',
@@ -31,14 +31,38 @@ const speech_to_text = new SpeechToTextV1({
                     let temp = transcript.results[i].alternatives[0].timestamps;
                     fileData.push(temp);
                 }
-                    let cuePoints = JSON.stringify(fileData);
-                    let fileName =  file;
-                    file = fileName.slice(0, -4)
-                    fs.writeFile('./audio/'+file+'.json', cuePoints,  function(err) {
-                    if (err) 
-                    {
-                    return console.error(err);
-                    }});
+                    
+					console.log("cuepoints:  "+fileData);
+					let inputData = fileData;
+					
+					let headers = ["Title", "StartTime", "EndTime"]; 
+					let newInput = [];
+					for(let i = 0; i<=inputData.length-1; i++){
+						newInput = newInput.concat(inputData[i]);
+					}
+					for (let j = 0; j <= newInput.length-1; j++) {
+
+						if (newInput[j][1] <= 10) {
+							newInput[j][1] = "00:00:0" + newInput[j][1];
+						} else {
+							newInput[j][1] = "00:00:" + newInput[j][1];
+						}
+						if (newInput[j][2] <= 10) {
+							newInput[j][2] = "00:00:0" + newInput[j][2];
+						} else {
+							newInput[j][2] = "00:00:" + newInput[j][2];
+						}
+					}
+					newInput.splice(0, 0, headers); 
+					let data = newInput; 
+					let ws = XLSX.utils.aoa_to_sheet(data); 
+					let wb = XLSX.utils.book_new(); 
+					XLSX.utils.book_append_sheet(wb, ws, "audio_Cuepoints");
+					let fileName =  file;
+					file = './audio/'+fileName.slice(0, -4) + '.xlsx';	
+					XLSX.writeFile(wb, file,  {type:'buffer', bookType:"xlsx"}); 
+					
+
             }
         });
 
