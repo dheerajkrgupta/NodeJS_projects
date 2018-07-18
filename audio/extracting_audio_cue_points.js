@@ -32,17 +32,18 @@ const speech_to_text = new SpeechToTextV1({
                     let temp = transcript.results[i].alternatives[0].timestamps;
                     fileData.push(temp);
                 }
-                    
-					console.log("cuepoints:  "+fileData);
 					let inputData = fileData;
 					
-					let headers = ["Title", "StartTime", "EndTime"]; 
+					let headers = ["Title", "Start Time", "End Time"]; 
 					let newInput = [];
 					for(let i = 0; i<=inputData.length-1; i++){
 						newInput = newInput.concat(inputData[i]);
 					}
+					
 					for (let j = 0; j <= newInput.length-1; j++) {
-
+						newInput[j][1];
+						newInput[j][2];
+						/*
 						if (newInput[j][1] <= 10) {
 							newInput[j][1] = "00:00:0" + newInput[j][1];
 						} else {
@@ -52,7 +53,7 @@ const speech_to_text = new SpeechToTextV1({
 							newInput[j][2] = "00:00:0" + newInput[j][2];
 						} else {
 							newInput[j][2] = "00:00:" + newInput[j][2];
-						}
+						}*/
 					}
 					newInput.splice(0, 0, headers); 
 					let data = newInput; 
@@ -62,7 +63,6 @@ const speech_to_text = new SpeechToTextV1({
 					let fileName =  file;
 					file = './audio/'+fileName.slice(0, -4) + '.xlsx';	
 					XLSX.writeFile(wb, file,  {type:'buffer', bookType:"xlsx"}); 
-					
 
             }
         });
