@@ -39,11 +39,10 @@ const speech_to_text = new SpeechToTextV1({
 					for(let i = 0; i<=inputData.length-1; i++){
 						newInput = newInput.concat(inputData[i]);
 					}
-					
+					/*
 					for (let j = 0; j <= newInput.length-1; j++) {
 						newInput[j][1];
 						newInput[j][2];
-						/*
 						if (newInput[j][1] <= 10) {
 							newInput[j][1] = "00:00:0" + newInput[j][1];
 						} else {
@@ -53,8 +52,8 @@ const speech_to_text = new SpeechToTextV1({
 							newInput[j][2] = "00:00:0" + newInput[j][2];
 						} else {
 							newInput[j][2] = "00:00:" + newInput[j][2];
-						}*/
-					}
+						}
+					}*/
 					newInput.splice(0, 0, headers); 
 					let data = newInput; 
 					let ws = XLSX.utils.aoa_to_sheet(data); 
@@ -62,10 +61,10 @@ const speech_to_text = new SpeechToTextV1({
 					XLSX.utils.book_append_sheet(wb, ws, "audio_Cuepoints");
 					let fileName =  file;
 					file = './audio/'+fileName.slice(0, -4) + '.xlsx';	
-					XLSX.writeFile(wb, file,  {type:'buffer', bookType:"xlsx"}); 
-
+					XLSX.writeFile(wb, file,  {type:'buffer', bookType:"xlsx"});
+					
             }
+			
         });
-
     });
 });
