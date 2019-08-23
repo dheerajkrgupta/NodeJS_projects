@@ -1,17 +1,13 @@
 const SpeechToTextV1 = require('watson-developer-cloud/speech-to-text/v1');
-const XLSX = require('xlsx'); 
 const fs = require('fs');
-
+const os = require('os');
 const speech_to_text = new SpeechToTextV1({
-  username: "c0918f10-766d-4435-adc3-af2c8171eba9",
-  password: "45Ul2mQ0wS8i",
-  
-  });
-  
+		username: "c0918f10-766d-4435-adc3-af2c8171eba9",
+		password: "45Ul2mQ0wS8i"
+ });
+
   fs.readdir("./audio/",function(err, files){
-    if (err) {
-       return console.error(err);
-    }
+    if (err) { return console.error(err);}
     files.forEach( function (file)
     {
        let comPath = "./audio/" + file;
@@ -22,21 +18,25 @@ const speech_to_text = new SpeechToTextV1({
                     };
 
         speech_to_text.recognize(params, function (error, transcript) 
-        {
-            if (error)
-            console.log('Error:', error);
+			{
+            if (error) {console.log('Error:', error);}
             else
-            {
+				{
                 let fileName = file.split("."); 
-				
-					for (i=0; i < transcript.results.length; i++){ 
-				fs.appendFile('./audio/'+fileName[0]+'.txt', JSON.stringify(transcript.results[i].alternatives[0].transcript), function (err) {
-				
+				let cPath = './audio/'+fileName[0]+'.txt';
+					for (i=0; i < transcript.results.length; i++){ 	 
+					
+				fs.appendFileSync(cPath, JSON.stringify(transcript.results[i].alternatives[0].transcript), function (err) {
 			});
 		}
-		console.log('Saved!');
-				
-            }
+		fs.readFile(cPath, 'utf8', function (err,data) {
+			if (err) { return console.log(err); }
+			var result = data.replace(/""/g,','+os.EOL);
+				fs.writeFile(cPath, result, 'utf8', 
+				function (err) { if (err) return console.log(err)});
+			});	
+		console.log("Audio transcript is extracted for \""+file+"\" successfully!");
+        }
 			
         });
     });
