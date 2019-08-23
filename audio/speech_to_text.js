@@ -2,8 +2,8 @@ const SpeechToTextV1 = require('watson-developer-cloud/speech-to-text/v1');
 const fs = require('fs');
 const os = require('os');
 const speech_to_text = new SpeechToTextV1({
-		username: "c0918f10-766d-4435-adc3-af2c8171eba9",
-		password: "45Ul2mQ0wS8i"
+		username: "",
+		password: ""
  });
 
   fs.readdir("./audio/",function(err, files){

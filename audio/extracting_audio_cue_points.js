@@ -3,8 +3,8 @@ const XLSX = require('xlsx');
 const fs = require('fs');
 
 const speech_to_text = new SpeechToTextV1({
-  username: "c0918f10-766d-4435-adc3-af2c8171eba9",
-  password: "45Ul2mQ0wS8i"
+  username: "",
+  password: ""
   });
   
   fs.readdir("./audio/",function(err, files){
@@ -39,21 +39,6 @@ const speech_to_text = new SpeechToTextV1({
 					for(let i = 0; i<=inputData.length-1; i++){
 						newInput = newInput.concat(inputData[i]);
 					}
-					/*
-					for (let j = 0; j <= newInput.length-1; j++) {
-						newInput[j][1];
-						newInput[j][2];
-						if (newInput[j][1] <= 10) {
-							newInput[j][1] = "00:00:0" + newInput[j][1];
-						} else {
-							newInput[j][1] = "00:00:" + newInput[j][1];
-						}
-						if (newInput[j][2] <= 10) {
-							newInput[j][2] = "00:00:0" + newInput[j][2];
-						} else {
-							newInput[j][2] = "00:00:" + newInput[j][2];
-						}
-					}*/
 					newInput.splice(0, 0, headers); 
 					let data = newInput; 
 					let ws = XLSX.utils.aoa_to_sheet(data); 
