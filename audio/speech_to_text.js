@@ -5,11 +5,14 @@ const speech_to_text = new SpeechToTextV1({
 		username: "",
 		password: ""
  });
-
+ 
+ console.log("Please wait, BOT is extracting Audio Transcript!");
+ 
   fs.readdir("./audio/",function(err, files){
     if (err) { return console.error(err);}
     files.forEach( function (file)
     {
+		
        let comPath = "./audio/" + file;
        let params = {
                     audio: fs.createReadStream(comPath),
@@ -31,7 +34,7 @@ const speech_to_text = new SpeechToTextV1({
 		}
 		fs.readFile(cPath, 'utf8', function (err,data) {
 			if (err) { return console.log(err); }
-			var result = data.replace(/""/g,','+os.EOL);
+			var result = data.replace(/""/g,','+os.EOL).replace(/%HESITATION/g,"");
 				fs.writeFile(cPath, result, 'utf8', 
 				function (err) { if (err) return console.log(err)});
 			});	
