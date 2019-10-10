@@ -1,0 +1,18 @@
+{
+  "name": "mathquill_conversion",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "latextomathml": "0.0.4",
+    "mathquill": "^0.10.1-a",
+    "recursive-readdir": "^2.2.2",
+    "replaceall": "^0.1.6"
+  }
+}

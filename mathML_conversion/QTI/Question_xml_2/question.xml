@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1p1.xsd" identifier="QUESTION_293741226_Q" title="QUESTION_293741226_Q" timeDependent="false" adaptive="false">
+  <responseDeclaration identifier="RESPONSE" cardinality="single" baseType="identifier">
+    <correctResponse>
+      <value>CHOICE_1</value>
+    </correctResponse>
+  </responseDeclaration>
+  <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float"/>
+  <itemBody>
+  
+  <div>
+<p>Decide if the system of equations has one solution, no solution, or infinitely many solutions.</p>
+<p>\\(x+\frac{1}{3}y=-10\\) and \\(3x+y=30\\)</p>
+</div>
+    <choiceInteraction label="RESPONSE" responseIdentifier="RESPONSE" maxChoices="1" shuffle="false">
+      <prompt/>
+      <simpleChoice identifier="CHOICE_0">one solution</simpleChoice>
+      <simpleChoice identifier="CHOICE_1">no solution</simpleChoice>
+      <simpleChoice identifier="CHOICE_2">infinitely many solutions</simpleChoice>
+    </choiceInteraction>
+  </itemBody>
+  <responseProcessing template="http://www.imsglobal.org/question/qtiv2p1/rptemplates/match_correct.xml">
+  <responseCondition>
+			<responseIf>
+				<variable identifier="HINTREQUEST"/>
+				<setOutcomeValue identifier="FEEDBACK">
+					<baseValue baseType="identifier">HINT</baseValue>
+				</setOutcomeValue>
+				<setOutcomeValue identifier="END_FEEDBACK">
+					<baseValue baseType="identifier">NONE</baseValue>
+				</setOutcomeValue>
+			</responseIf>
+			<responseElse>
+				<responseCondition>
+					<responseIf>
+						<match>
+							<variable identifier="RESPONSE"/>
+							<correct identifier="RESPONSE"/>
+						</match>
+						<setOutcomeValue identifier="SCORE">
+							<baseValue baseType="float">1</baseValue>
+						</setOutcomeValue>
+						<setOutcomeValue identifier="END_FEEDBACK">
+							<baseValue baseType="identifier">CORRECT</baseValue>
+						</setOutcomeValue>
+					</responseIf>
+					<responseElse>
+						<setOutcomeValue identifier="SCORE">
+							<baseValue baseType="float">0</baseValue>
+						</setOutcomeValue>
+						<setOutcomeValue identifier="END_FEEDBACK">
+							<baseValue baseType="identifier">INCORRECT</baseValue>
+						</setOutcomeValue>
+					</responseElse>
+				</responseCondition>
+				<setOutcomeValue identifier="FEEDBACK">
+					<variable identifier="RESPONSE"/>
+				</setOutcomeValue>
+			</responseElse>
+		</responseCondition>
+		</responseProcessing>
+    <modalFeedback outcomeIdentifier="FEEDBACK" identifier="HINT" showHide="show">Determine if the lines overlap or have the same slope and/or <em>y</em>-intercept.A system has one solution if the lines intersect at a single point, no solution if they never intersect, and infinitely many solutions if they overlap.</modalFeedback>
+	<modalFeedback outcomeIdentifier="END_FEEDBACK" identifier="CORRECT" showHide="show">This can be tough, but you can do it! The lines do not intersect at a single point.Good thinking!Don’t give up! The lines do not overlap.</modalFeedback>
+	<modalFeedback outcomeIdentifier="END_FEEDBACK" identifier="INCORRECT" showHide="show"></modalFeedback>
+</assessmentItem>
