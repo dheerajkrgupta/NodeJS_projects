@@ -1,10 +1,10 @@
-
 /* Author: Dheeraj Kr. Gupta */
 
 const fs = require('fs');
 const Translator=require("latextomathml");
 const readdir = require("recursive-readdir");
 const replaceall = require("replaceall");
+
 const LogfileName =  "Log_file_" + new Date().getTime() + ".txt";
 
 readdir("./QTI/").then( function(files) {
@@ -23,18 +23,21 @@ readdir("./QTI/").then( function(files) {
 
             if(latexPat1 !=-1 && latexPat2 !=-1 && xfileType[1] == "xml")
 				{			
-					newdata1 = replaceall("\\(", "latex", quesXml);
-                    newdata2 = replaceall("\\)","latex", newdata1);
-					let patLength = newdata2.match(/latex/g).length;
-						
+					newdata1 = replaceall("\\\\(", "<strong>", quesXml);
+                    newdata2 = replaceall("\\\\)","</strong>", newdata1);
+					let patLength = newdata2.match(/<strong>/g).length;				
+		
 					while (patLength > 0)
 					{
-						let c = newdata2.indexOf("\\latex");
-                        let d = newdata2.indexOf("\\latex", c+6);                                                    
-                        let res = newdata2.substring(c+6, d);
-                        let mathmlstr=Translator.LaTeXtoMathML(res); 		
-						let newstr = "\\latex"+res+"\\latex";
-                        newdata2 = replaceall(newstr, mathmlstr, newdata2);
+						let c = newdata2.indexOf("<strong>");
+                        let d = newdata2.indexOf("</strong>", c+8);                                                    
+                        let res = newdata2.substring(c+8, d);
+						let indx = res.indexOf("\\\\");
+						if(indx != -1){
+						let res1 = replaceall("\\\\", "\\", res);
+                        let mathmlstr=Translator.LaTeXtoMathML(res1);
+                        newdata2 = replaceall(res, mathmlstr, newdata2);
+						}
 						patLength = patLength-2;	
                      }
 						newdata2 = replaceall("imsqti_v2p1p1.xsd", "imsqti_v2p1p2.xsd http://www.w3.org/1998/Math/MathML http://www.w3.org/Math/XMLSchema/mathml2/mathml2.xsd",newdata2);
@@ -43,6 +46,7 @@ readdir("./QTI/").then( function(files) {
 						fs.appendFileSync( LogfileName , ""+ file +" is modified for MathML conversion\n", function (err) {
 						if (err) throw err; });	
 						counter++;
+						
 				}
 			if(totalFiles==1 && counter >= 1)
 			{
