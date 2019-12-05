@@ -15,7 +15,7 @@ readdir("./QTI/").then( function(files) {
 	console.log(" Total File(s): "+ totalFiles);
 	files.forEach( function (file)
 		{
-				 let newdata1, newdata2;
+				 let ndata, fdata, sIndex, d, bsIndex, mEquation, upEquation, mathmlstr;
                  let quesXml = fs.readFileSync(file,'utf8');
                  let latexPat1 = quesXml.indexOf("\\(");
                  let latexPat2 = quesXml.indexOf("\\)");
@@ -23,53 +23,65 @@ readdir("./QTI/").then( function(files) {
 
             if(latexPat1 !=-1 && latexPat2 !=-1 && xfileType[1] == "xml")
 				{			
-					newdata1 = replaceall("\\\\(", "<strong>", quesXml);
-                    newdata2 = replaceall("\\\\)","</strong>", newdata1);
-					let patLength = newdata2.match(/<strong>/g).length;				
-		
+					ndata = replaceall("\\\\(", "<dheerajG>", quesXml);
+                    fdata = replaceall("\\\\)","</dheerajG>", ndata);
+					let patLength = fdata.match(/<dheerajG>/g).length;
+					
 					while (patLength > 0)
 					{
-						let c = newdata2.indexOf("<strong>");
-                        let d = newdata2.indexOf("</strong>", c+8);                                                    
-                        let res = newdata2.substring(c+8, d);
-						let indx = res.indexOf("\\\\");
-						if(indx != -1){
-						let res1 = replaceall("\\\\", "\\", res);
-                        let mathmlstr=Translator.LaTeXtoMathML(res1);
-                        newdata2 = replaceall(res, mathmlstr, newdata2);
-						}
-						patLength = patLength-2;	
+						sIndex = fdata.indexOf("<dheerajG>");
+						eIndex = fdata.indexOf("</dheerajG>", sIndex+10);                                                    
+						mEquation = fdata.substring(sIndex+10, eIndex);
+						bsIndex = mEquation.indexOf("\\\\");
+							if(bsIndex != -1)
+							{							
+								//console.log("*********** MathML Conversion ***********");
+								upEquation = replaceall("\\\\", "\\", mEquation);
+								mathmlstr=Translator.LaTeXtoMathML(upEquation);
+								fdata = replaceall("<dheerajG>"+mEquation+"</dheerajG>", mathmlstr, fdata);
+							}
+							else 
+							{
+							fdata = replaceall("<dheerajG>"+mEquation+"</dheerajG>", "<strong>"+mEquation+"</strong>", fdata);
+							}
+							sIndex = eIndex+10; patLength--;	
+			
+								if(patLength==0)
+								{	
+								fdata = replaceall("imsqti_v2p1p1.xsd", "imsqti_v2p1p2.xsd http://www.w3.org/1998/Math/MathML http://www.w3.org/Math/XMLSchema/mathml2/mathml2.xsd",fdata);
+								fdata = replaceall("<math>", "<strong><math xmlns='http://www.w3.org/1998/Math/MathML'>", fdata);
+								fdata = replaceall("</math>", "</math></strong>", fdata);
+								//Replace extra backslash with space 
+								fdata = replaceall("<mo>\\</mo>","", fdata);
+								fs.writeFileSync(file, fdata);	
+								}
                      }
-						newdata2 = replaceall("imsqti_v2p1p1.xsd", "imsqti_v2p1p2.xsd http://www.w3.org/1998/Math/MathML http://www.w3.org/Math/XMLSchema/mathml2/mathml2.xsd",newdata2);
-						newdata2 = replaceall("<math>", "<math xmlns='http://www.w3.org/1998/Math/MathML'>", newdata2);
-						fs.writeFileSync(file, newdata2);
-						fs.appendFileSync( LogfileName , ""+ file +" is modified for MathML conversion\n", function (err) {
-						if (err) throw err; });	
-						counter++;
-						
+				
+							fs.appendFileSync( LogfileName , ""+ file +" is modified for MathML conversion\n", function (err) {
+							if (err) throw err; });	
+							counter++;
 				}
-			if(totalFiles==1 && counter >= 1)
-			{
-				console.log(" Total Modified File(s): "+ counter);
-				console.log(" MathML conversion has been done. Please check "+LogfileName+" for modified XML file(s).");
-			}
-			else if(totalFiles==1 && counter==0)
-			{
-				console.log(" We did not find any math equation in xml file(s) for MathML conversion.");
-			}
-			else
-			{
+					if(totalFiles==1 && counter >= 1)
+					{
+					console.log(" Total Modified File(s): "+ counter);
+					console.log(" MathML conversion has been done. Please check "+LogfileName+" for modified XML file(s).");
+					}
+					else if(totalFiles==1 && counter==0)
+					{
+					console.log(" We did not find any math equation in xml file(s) for MathML conversion.");
+					}
+				else
+				{
 				totalFiles--; 
-			}					
-					
+				}	
 		});
 	}
 	else{
-			console.log(" We did not find any xml file in QTI folder.");
+			console.log("We did not find any xml file in QTI folder.");
 		}
  },
 	function(error)
 	{
-		console.error(" Something went wrong here", error);
+		console.error("Something went wrong here", error);
 	}
 );
