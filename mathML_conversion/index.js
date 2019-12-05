@@ -38,7 +38,9 @@ readdir("./QTI/").then( function(files) {
 								//console.log("*********** MathML Conversion ***********");
 								upEquation = replaceall("\\\\", "\\", mEquation);
 								mathmlstr=Translator.LaTeXtoMathML(upEquation);
+								//console.log("mathmlstr: "+mathmlstr);
 								fdata = replaceall("<dheerajG>"+mEquation+"</dheerajG>", mathmlstr, fdata);
+															
 							}
 							else 
 							{
@@ -49,10 +51,15 @@ readdir("./QTI/").then( function(files) {
 								if(patLength==0)
 								{	
 								fdata = replaceall("imsqti_v2p1p1.xsd", "imsqti_v2p1p2.xsd http://www.w3.org/1998/Math/MathML http://www.w3.org/Math/XMLSchema/mathml2/mathml2.xsd",fdata);
+								// Adding <strong> tag
 								fdata = replaceall("<math>", "<strong><math xmlns='http://www.w3.org/1998/Math/MathML'>", fdata);
 								fdata = replaceall("</math>", "</math></strong>", fdata);
-								//Replace extra backslash with space 
+								//Removing symbols in MathML   
 								fdata = replaceall("<mo>\\</mo>","", fdata);
+								fdata = replaceall("</mtd><mtd>","", fdata);
+								//Replacing symbols in MathML  
+								fdata = replaceall("<mo>#</mo><mn>60</mn><mo>;</mo>","<mo>&lt;</mo>", fdata);
+								fdata = replaceall("<mo>#</mo><mn>62</mn><mo>;</mo>","<mo>&gt;</mo>", fdata);
 								fs.writeFileSync(file, fdata);	
 								}
                      }
