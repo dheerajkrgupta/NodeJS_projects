@@ -1,0 +1,40 @@
+<div *ngIf="isShowDIve" id="bg-img">
+</div>
+
+<header>
+  <h1>
+    <img src="../assets/logo.png" class="img-responsive">
+    <!-- <span>Art Ai</span> -->
+  </h1>
+</header>
+
+<div class="page-wrapper">
+  <div class="vh-center layout-row">
+    <div class="canvas-wrapper flex-50">
+      <div class="icons">
+          <div (click)="RemoveAllObjectCanvas()"><i class="fas fa-eraser" title="Clear"></i></div>
+          <div (click)="toggleDrawing()" class="custom-pd"> <img src="../assets/icons8-resize-24.png" title="{{btnText}}"> </div>
+          <div (click)="deleteSelectedObject()"><i class="fas fa-trash" title="Delete"></i></div>
+		  <div> <a (click)="downloadmyImage('e')" download="art-ai.png" [attr.href]="imageLink"><i class="fas fa-download" title="Download"></i></a></div>
+        </div>
+      <div class="canvas">
+        <canvas #canvas  id="c" width="650" height="550"></canvas>
+        <!-- <div class="btn-control text-left">
+          <button type="button" class="btn clear-canvas-button" (click)="RemoveAllObjectCanvas()"  >Clear</button>
+          <button type="button" class="btn clear-canvas-button" (click)="toggleDrawing()"  >{{btnText}}</button>
+          <button type="button" class="btn clear-canvas-button" (click)="deleteSelectedObject()"  >Delete</button>
+        </div> -->
+      </div>
+    </div>
+
+    <div class="autodraw-results-wrapper flex-50">
+      <div class="autodraw-results">
+        <ng-template ngFor [ngForOf]="drawSuggestions" let-suggestion>
+          <figure class="autodraw-image" *ngFor="let icon of suggestion.icons" (click)="pickSuggestion(icon)">
+            <img src="{{ icon }}" width="90" height="90" alt="{{ suggestion.name }}" title="{{ suggestion.name }}">
+          </figure>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
