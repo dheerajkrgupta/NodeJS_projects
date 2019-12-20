@@ -41,10 +41,12 @@ readdir("./QTI/").then( function(files) {
 						sIndex = fdata.indexOf("<dheerajG>");
 						eIndex = fdata.indexOf("</dheerajG>", sIndex+10);                                                    
 						mEquation = fdata.substring(sIndex+10, eIndex);
+							/*
 						bsIndex = mEquation.indexOf("\\\\");
 						csIndex = mEquation.indexOf("^");
 							if(bsIndex != -1 || csIndex != -1)
-							{							
+							{
+							*/
 								//console.log("*********** MathML Conversion ***********");
 								upEquation = replaceall("\\\\", "\\", mEquation);
 								// Replace backward slash with sapce 
@@ -53,12 +55,14 @@ readdir("./QTI/").then( function(files) {
 								mathmlstr=Translator.LaTeXtoMathML(upEquation);
 								 //console.log("mathmlstr "+ mathmlstr);
 								fdata = replaceall("<dheerajG>"+mEquation+"</dheerajG>", mathmlstr, fdata);
-															
+							
+								/*
 							}
 							else 
 							{
 							fdata = replaceall("<dheerajG>"+mEquation+"</dheerajG>", "<strong>"+mEquation+"</strong>", fdata);
 							}
+							*/
 							sIndex = eIndex+10; patLength--;	
 			
 								if(patLength==0)
