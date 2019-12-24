@@ -83,6 +83,7 @@ readdir("./QTI/").then( function(files) {
 								fdata = replaceall("<mo>#</mo><mn>8722</mn><mo>;</mo>","<mo>&#8722;</mo>", fdata);
 								fdata = replaceall("<mi>r</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>t</mi><mi>a</mi><mi>r</mi><mi>r</mi><mi>o</mi><mi>w</mi>","<mo>&#x2192;</mo>", fdata);
 								fdata = replaceall("<mo stretchy='true' d='&#x00AF;'></mo>","<mo>&#x00AF;</mo>", fdata);
+								fdata = replaceall("<mo>\\</mo><mi>t</mi><mi>r</mi><mi>i</mi><mi>a</mi><mi>n</mi><mi>g</mi><mi>l</mi><mi>e</mi>","<mo>&#x2206;</mo>", fdata);
 								fs.writeFileSync(file, fdata);	
 								}
                      }
