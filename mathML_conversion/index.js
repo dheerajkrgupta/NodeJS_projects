@@ -50,9 +50,8 @@ readdir("./QTI/").then( function(files) {
 								 //console.log("mathmlstr "+ mathmlstr);
 								fdata = replaceall("<dheerajG>"+mEquation+"</dheerajG>", mathmlstr, fdata);
 							
-							sIndex = eIndex+10; patLength--;	
-							
-							
+								sIndex = eIndex+10; patLength--;	
+										
 								if(patLength==0)
 								{	
 								//Updating header
@@ -81,15 +80,28 @@ readdir("./QTI/").then( function(files) {
 								// *********end***********
 								
 								//Find & Replace only 
-								fdata = replaceall("<mi>r</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>t</mi><mi>a</mi><mi>r</mi><mi>r</mi><mi>o</mi><mi>w</mi>","<mo>&#x2192;</mo>", fdata);
+								fdata = replaceall("<mo>\\</mo><mi>r</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>t</mi><mi>a</mi><mi>r</mi><mi>r</mi><mi>o</mi><mi>w</mi>","<mo>&#x2192;</mo>", fdata);
 								fdata = replaceall("<mo stretchy='true' d='&#x00AF;'></mo>","<mo>&#x00AF;</mo>", fdata);
-								fdata = replaceall("<mo>\\</mo><mi>t</mi><mi>r</mi><mi>i</mi><mi>a</mi><mi>n</mi><mi>g</mi><mi>l</mi><mi>e</mi>","<mo>&#x2206;</mo>", fdata);
+								fdata = replaceall("<mo>\\</mo><mi>t</mi><mi>r</mi><mi>i</mi><mi>a</mi><mi>n</mi><mi>g</mi><mi>l</mi><mi>e</mi><mo>&#x00A0;</mo>","<mo>&#x2206;</mo>", fdata);
 								fdata = replaceall("<mo>\\</mo><mi>d</mi><mi>e</mi><mi>g</mi><mi>r</mi><mi>e</mi><mi>e</mi>","<mo>&#x00B0;</mo>", fdata);
 								fdata = replaceall("<mo>\\</mo><mi>v</mi><mi>a</mi><mi>r</mi><mi>n</mi><mi>o</mi><mi>t</mi><mi>h</mi><mi>i</mi><mi>n</mi><mi>g</mi>","<mo>&#x2205;</mo>", fdata);
 								// *********end***********
 								
+								//Removing internal tags <mtr>,<mtd> in <mtable> 
+								mtable = fdata.match(/<mtable>/g);
+								mtable = (mtable == undefined) ? 0 : mtable.length;
+								if(mtable == 0){
+									
+									fdata = replaceall("<mtd>","", fdata);
+									fdata = replaceall("</mtd>","", fdata);
+									fdata = replaceall("<mtr>","", fdata);
+									fdata = replaceall("</mtr>","", fdata);
+								}
+								// *********end***********
+						
 								//Removing internal tags in <mtext> 
-								pLength = fdata.match(/<mtext>/g).length;	
+								pLength = fdata.match(/<mtext>/g);
+								pLength = (pLength == undefined) ? 0 : pLength.length;
 								msIndex= 0;
 								//console.log("<mtext> length:" + pLength);
 								while (pLength > 0)
