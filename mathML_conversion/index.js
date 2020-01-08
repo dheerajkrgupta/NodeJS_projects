@@ -41,13 +41,45 @@ readdir("./QTI/").then( function(files) {
 						sIndex = fdata.indexOf("<dheerajG>");
 						eIndex = fdata.indexOf("</dheerajG>", sIndex+10);                                                    
 						mEquation = fdata.substring(sIndex+10, eIndex);
-								//console.log("*********** MathML Conversion ***********");
-								upEquation = replaceall("\\\\", "\\", mEquation);
-								// Replace backward slash with sapce 
-								upEquation = replaceall("\\ "," ", upEquation);
-								 //console.log("upEquation "+ upEquation);
-								mathmlstr=Translator.LaTeXtoMathML(upEquation);
-								 //console.log("mathmlstr "+ mathmlstr);
+							//console.log("*********** MathML Conversion ***********");
+							upEquation = replaceall("\\\\", "\\", mEquation);
+							// Replace backward slash with sapce 
+							upEquation = replaceall("\\ "," ", upEquation);
+							//console.log("upEquation "+ upEquation);
+							mathmlstr=Translator.LaTeXtoMathML(upEquation);
+							//console.log("mathmlstr "+ mathmlstr);
+							
+							//Removing internal tags <mtr>,<mtd> in <mtable> 
+							mtable = mathmlstr.match(/<mtable>/g);
+							mtable = (mtable == undefined) ? 0 : mtable.length;
+							if(mtable == 0){		
+								mathmlstr = replaceall("<mtd>","", mathmlstr);
+								mathmlstr = replaceall("</mtd>","", mathmlstr);
+								mathmlstr = replaceall("<mtr>","", mathmlstr);
+								mathmlstr = replaceall("</mtr>","", mathmlstr);
+								}
+								// *********end***********
+						
+								//Removing internal tags in <mtext> 
+								pLength = mathmlstr.match(/<mtext>/g);
+								pLength = (pLength == undefined) ? 0 : pLength.length;
+								msIndex= 0;
+								while (pLength > 0)
+								{
+								msIndex = mathmlstr.indexOf("<mtext>", msIndex);
+								meIndex = mathmlstr.indexOf("</mtext>", msIndex+7);   
+								mtextString = mathmlstr.substring(msIndex+7, meIndex);
+								mtextStr = replaceall("<mo>","", mtextString);
+								mtextStr = replaceall("</mo>","", mtextStr);
+								mtextStr = replaceall("<mi>","", mtextStr);
+								mtextStr = replaceall("</mi>","", mtextStr);
+								mtextStr = replaceall("<mn>","", mtextStr);
+								mtextStr = replaceall("</mn>","", mtextStr);
+								mathmlstr = replaceall("<mtext>"+mtextString+"</mtext>", "<mtext>"+mtextStr+"</mtext>", mathmlstr);
+								msIndex = meIndex+7; pLength--;
+								}
+								// *********end***********
+					 
 								fdata = replaceall("<dheerajG>"+mEquation+"</dheerajG>", mathmlstr, fdata);
 							
 								sIndex = eIndex+10; patLength--;	
@@ -88,44 +120,6 @@ readdir("./QTI/").then( function(files) {
 								fdata = replaceall("<mi>&#x0394;</mi><mo>&#x00A0;</mo>","<mi>&#x0394;</mi>", fdata);
 								
 								// *********end***********
-								
-								//Removing internal tags <mtr>,<mtd> in <mtable> 
-								mtable = fdata.match(/<mtable>/g);
-								mtable = (mtable == undefined) ? 0 : mtable.length;
-								if(mtable == 0){
-									
-									fdata = replaceall("<mtd>","", fdata);
-									fdata = replaceall("</mtd>","", fdata);
-									fdata = replaceall("<mtr>","", fdata);
-									fdata = replaceall("</mtr>","", fdata);
-								}
-								// *********end***********
-						
-								//Removing internal tags in <mtext> 
-								pLength = fdata.match(/<mtext>/g);
-								pLength = (pLength == undefined) ? 0 : pLength.length;
-								msIndex= 0;
-								//console.log("<mtext> length:" + pLength);
-								while (pLength > 0)
-								{
-								msIndex = fdata.indexOf("<mtext>", msIndex);
-								meIndex = fdata.indexOf("</mtext>", msIndex+7);   
-								//console.log("startIndex: "+ msIndex + " endIndex: "+meIndex)
-								mtextString = fdata.substring(msIndex+7, meIndex);
-								//console.log("mtextString: "+mtextString); 
-								mtextStr = replaceall("<mo>","", mtextString);
-								mtextStr = replaceall("</mo>","", mtextStr);
-								mtextStr = replaceall("<mi>","", mtextStr);
-								mtextStr = replaceall("</mi>","", mtextStr);
-								mtextStr = replaceall("<mn>","", mtextStr);
-								mtextStr = replaceall("</mn>","", mtextStr);
-								fdata = replaceall("<mtext>"+mtextString+"</mtext>", "<mtext>"+mtextStr+"</mtext>", fdata);
-								
-								msIndex = meIndex+7; pLength--;
-							}
-				
-							
-								
 								
 								fs.writeFileSync(file, fdata);	
 								}
