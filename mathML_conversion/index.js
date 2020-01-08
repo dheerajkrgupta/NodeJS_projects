@@ -83,8 +83,10 @@ readdir("./QTI/").then( function(files) {
 								fdata = replaceall("<mo>\\</mo><mi>r</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>t</mi><mi>a</mi><mi>r</mi><mi>r</mi><mi>o</mi><mi>w</mi>","<mo>&#x2192;</mo>", fdata);
 								fdata = replaceall("<mo stretchy='true' d='&#x00AF;'></mo>","<mo>&#x00AF;</mo>", fdata);
 								fdata = replaceall("<mo>\\</mo><mi>t</mi><mi>r</mi><mi>i</mi><mi>a</mi><mi>n</mi><mi>g</mi><mi>l</mi><mi>e</mi><mo>&#x00A0;</mo>","<mo>&#x2206;</mo>", fdata);
-								fdata = replaceall("<mo>\\</mo><mi>d</mi><mi>e</mi><mi>g</mi><mi>r</mi><mi>e</mi><mi>e</mi>","<mo>&#x00B0;</mo>", fdata);
+								fdata = replaceall("<mo>\\</mo><mi>d</mi><mi>e</mi><mi>g</mi><mi>r</mi><mi>e</mi><mi>e</mi><mo>&#x00A0;</mo>","<mo>&#x00B0;</mo>", fdata);
 								fdata = replaceall("<mo>\\</mo><mi>v</mi><mi>a</mi><mi>r</mi><mi>n</mi><mi>o</mi><mi>t</mi><mi>h</mi><mi>i</mi><mi>n</mi><mi>g</mi>","<mo>&#x2205;</mo>", fdata);
+								fdata = replaceall("<mi>&#x0394;</mi><mo>&#x00A0;</mo>","<mi>&#x0394;</mi>", fdata);
+								
 								// *********end***********
 								
 								//Removing internal tags <mtr>,<mtd> in <mtable> 
