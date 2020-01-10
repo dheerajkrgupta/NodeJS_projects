@@ -91,8 +91,8 @@ readdir("./QTI/").then( function(files) {
 								// *********end***********
 								
 								// Adding <strong> tag
-								fdata = replaceall("<math>", "<strong><math xmlns='http://www.w3.org/1998/Math/MathML'>", fdata);
-								fdata = replaceall("</math>", "</math></strong>", fdata);
+								fdata = replaceall("<math>", "<math xmlns='http://www.w3.org/1998/Math/MathML'>", fdata);
+								fdata = replaceall("</math>", "</math>", fdata);
 								// *********end***********
 								
 								//Replacing symbols in MathML  
@@ -102,6 +102,9 @@ readdir("./QTI/").then( function(files) {
 								fdata = replaceall("<mo>#</mo><mn>36</mn><mo>;</mo>","<mo>&#36;</mo>", fdata);	
 								fdata = replaceall("<mo>#</mo><mn>183</mn><mo>;</mo>","<mo>&#183;</mo>", fdata);
 								fdata = replaceall("<mo>#</mo><mn>8722</mn><mo>;</mo>","<mo>&#8722;</mo>", fdata);
+								fdata = replaceall("<mo>#</mo><mn>8211</mn><mo>;</mo>","<mo>&#8211;</mo>", fdata);
+								fdata = replaceall("<mo>#</mo><mn>38</mn><mo>;</mo>","<mo>&#38;</mo>", fdata);
+
 								// *********end***********
 								
 								// Removing double space
