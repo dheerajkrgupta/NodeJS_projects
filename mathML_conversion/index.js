@@ -87,12 +87,8 @@ readdir("./QTI/").then( function(files) {
 								if(patLength==0)
 								{	
 								//Updating header
-								fdata = replaceall("imsqti_v2p1p1.xsd", "imsqti_v2p1p2.xsd http://www.w3.org/1998/Math/MathML http://www.w3.org/Math/XMLSchema/mathml2/mathml2.xsd",fdata);
-								// *********end***********
-								
-								// Adding <strong> tag
+								fdata = replaceall("imsqti_v2p1p1.xsd", "imsqti_v2p1p2.xsd http://www.w3.org/1998/Math/MathML http://www.w3.org/Math/XMLSchema/mathml2/mathml2.xsd",fdata);								
 								fdata = replaceall("<math>", "<math xmlns='http://www.w3.org/1998/Math/MathML'>", fdata);
-								fdata = replaceall("</math>", "</math>", fdata);
 								// *********end***********
 								
 								//Replacing symbols in MathML  
