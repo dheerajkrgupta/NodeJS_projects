@@ -101,10 +101,9 @@ readdir("./QTI/").then( function(files) {
 								fdata = replaceall("<mo>#</mo><mn>8211</mn><mo>;</mo>","<mo>&#8211;</mo>", fdata);
 								fdata = replaceall("<mo>#</mo><mn>38</mn><mo>;</mo>","<mo>&#38;</mo>", fdata);
 								fdata = replaceall("<mo>\\</mo><mi>d</mi><mi>o</mi><mi>t</mi><mi>s</mi>", "<mo>&#x2026;</mo>", fdata);
-								fdata = replaceall("<mo>\\</mo><mi>g</mi><mi>e</mi><mi>q</mi>", "<mo>&#x2265;</mo>", fdata);
-
+								fdata = replaceall("<mo>&#x2265;</mo><mi>q</mi>", "<mo>&#x2265;</mo>", fdata);
 								// *********end***********
-								
+
 								// Removing double space
 								fdata = replaceall("<mo> </mo>","<mo>&#x00A0;</mo>", fdata);
 								fdata = replaceall("<mo>&#x00A0;</mo><mo>","<mo>", fdata);
@@ -116,15 +115,16 @@ readdir("./QTI/").then( function(files) {
 								fdata = replaceall("<mo>\\</mo><mi>r</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>t</mi><mi>a</mi><mi>r</mi><mi>r</mi><mi>o</mi><mi>w</mi>","<mo>&#x2192;</mo>", fdata);
 								fdata = replaceall("<mo stretchy='true' d='&#x00AF;'></mo>","<mo>&#x00AF;</mo>", fdata);
 								fdata = replaceall("<mo>\\</mo><mi>t</mi><mi>r</mi><mi>i</mi><mi>a</mi><mi>n</mi><mi>g</mi><mi>l</mi><mi>e</mi><mo>&#x00A0;</mo>","<mo>&#x2206;</mo>", fdata);
-								fdata = replaceall("<mo>\\</mo><mi>d</mi><mi>e</mi><mi>g</mi><mi>r</mi><mi>e</mi><mi>e</mi><mo>&#x00A0;</mo>","<mo>&#x00B0;</mo>", fdata);
+								fdata = replaceall("<mo>\\</mo><mi>d</mi><mi>e</mi><mi>g</mi><mi>r</mi><mi>e</mi><mi>e</mi>","<mo>&#x00B0;</mo>", fdata);
 								fdata = replaceall("<mo>\\</mo><mi>v</mi><mi>a</mi><mi>r</mi><mi>n</mi><mi>o</mi><mi>t</mi><mi>h</mi><mi>i</mi><mi>n</mi><mi>g</mi>","<mo>&#x2205;</mo>", fdata);
 								fdata = replaceall("<mi>&#x0394;</mi><mo>&#x00A0;</mo>","<mi>&#x0394;</mi>", fdata);
 								fdata = replaceall("<<mi>m</mi><mi>o</mi><mo>&#x00A0;</mo><mi>d</mi><mo>=</mo><mo>'</mo><mo>#</mo><mi>x</mi><mn>2217</mn><mo>;</mo><mo>'</mo><mo>></mo></<mi>m</mi><mi>o</mi><mo>></mo>", "<mo>*</mo>", fdata);
 								fdata = replaceall("<mo>\\</mo><mi>l</mi><mi>c</mi><mi>e</mi><mi>i</mi><mi>l</mi>", "<mo>&#x2308;</mo>", fdata);
 								fdata = replaceall("<mo>\\</mo><mi>r</mi><mi>c</mi><mi>e</mi><mi>i</mi><mi>l</mi>", "<mo>&#x2309;</mo>", fdata);
-								fdata = replaceall("<mo>&#x2264;</mo><mi>q</mi>","<mo>&#x2264;</mo>", fdata); 
-								
-								
+								fdata = replaceall("<mo>&#x2264;</mo><mi>q</mi>","<mo>&#x2264;</mo>", fdata);
+								fdata = replaceall("<<mi>m</mi><mi>i</mi><mo>&#x00A0;</mo><mi>d</mi><mo>=</mo><mo>'</mo><mo>#</mo><mi>x</mi><mn>0025</mn><mo>;</mo><mo>'</mo><mo>></mo></<mi>m</mi><mi>i</mi><mo>></mo>","<mo>&#x0025;</mo>", fdata);
+								fdata = replaceall("<mo>&#x00A0;</mo><mi>&#x03C0;</mi>","<mo>&#x03C0;</mo>", fdata); 
+
 								// *********end***********
 								
 								fs.writeFileSync(file, fdata);	
@@ -158,7 +158,7 @@ readdir("./QTI/").then( function(files) {
 				else
 				{
 				totalFiles--; 
-				}	
+				}
 		});
 	}
 	else{
