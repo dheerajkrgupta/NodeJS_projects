@@ -126,6 +126,22 @@ readdir("./QTI/").then( function(files) {
 								fdata = replaceall("<mo>&#x00A0;</mo><mi>&#x03C0;</mi>","<mo>&#x03C0;</mo>", fdata); 
 
 								// *********end***********
+								//****MathML regex added***************
+								
+								//abs
+								fdata=fdata.replace(/(<mo>\\<\/mo><mi>a<\/mi><mi>b<\/mi><mi>s<\/mi>)(<mrow>.*<\/mrow>)/g,"<mo>|</mo>$2<mo>|</mo>");
+								//mfrac
+								fdata=fdata.replace(/(<mo>\\<\/mo><mi>f<\/mi><mi>r<\/mi><mi>a<\/mi><mi>c<\/mi>)(<mn>[0-9])([0-9]<\/mn>)/g,"<mfrac>$2</mn><mn>$3</mfrac>");
+								//longdiv
+								fdata=fdata.replace(/(<mo>\\<\/mo><mi>l<\/mi><mi>o<\/mi><mi>n<\/mi><mi>g<\/mi><mi>d<\/mi><mi>i<\/mi><mi>v<\/mi>)(<mrow>)(<[a-z]+>.*<\/[a-z]+>)(<\/mrow>)/g,"<menclose notation=\"longdiv\">$3</menclose>");
+								//dfrac
+								fdata=fdata.replace(/(<mo>\\<\/mo><mi>d<\/mi><mi>f<\/mi><mi>r<\/mi><mi>a<\/mi><mi>c<\/mi>)(<mrow>)(<mn>\d+<\/mn>)(<\/mrow>)(<mrow>)(<mn>\d+<\/mn>)(<\/mrow>)/g,"<mfrac>$3$6</mfrac>");
+									
+								//left
+								fdata1=fdata.replace(/(<mo>&#x2264;<\/mo><mi>f<\/mi><mi>t<\/mi><mo>&#x007B;<\/mo>)(<mn>)/g,"<mo>{</mo><mrow>$2");
+								
+								fdata=fdata1.replace(/(<\/mn><mo>\\<\/mo><mi>r<\/mi><mi>i<\/mi><mi>g<\/mi><mi>h<\/mi><mi>t<\/mi><mo>&#x007D;<\/mo>)/g,"</mn></mrow><mo>}</mo>");
+								//**********end***********
 								
 								fs.writeFileSync(file, fdata);	
 								}
