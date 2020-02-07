@@ -89,9 +89,11 @@ readdir("./QTI/").then( function(files) {
 								//Updating header
 								fdata = replaceall("imsqti_v2p1p1.xsd", "imsqti_v2p1p2.xsd http://www.w3.org/1998/Math/MathML http://www.w3.org/Math/XMLSchema/mathml2/mathml2.xsd",fdata);								
 								fdata = replaceall("<math>", "<math xmlns='http://www.w3.org/1998/Math/MathML'>", fdata);
+								//fdata=fdata.replace(/\s/g, '');
 								// *********end***********
 								
-								//Replacing symbols in MathML  
+								//Replacing symbols in MathML 
+									
 								fdata = replaceall("<mo>#</mo><mn>60</mn><mo>;</mo>","<mo>&lt;</mo>", fdata);
 								fdata = replaceall("<mo>#</mo><mn>62</mn><mo>;</mo>","<mo>&gt;</mo>", fdata);
 								fdata = replaceall("<mo>#</mo><mn>44</mn><mo>;</mo>","<mo>,</mo>", fdata);
@@ -124,8 +126,6 @@ readdir("./QTI/").then( function(files) {
 								fdata = replaceall("<mo>&#x2264;</mo><mi>q</mi>","<mo>&#x2264;</mo>", fdata);
 								fdata = replaceall("<<mi>m</mi><mi>i</mi><mo>&#x00A0;</mo><mi>d</mi><mo>=</mo><mo>'</mo><mo>#</mo><mi>x</mi><mn>0025</mn><mo>;</mo><mo>'</mo><mo>></mo></<mi>m</mi><mi>i</mi><mo>></mo>","<mo>&#x0025;</mo>", fdata);
 								fdata = replaceall("<mo>&#x00A0;</mo><mi>&#x03C0;</mi>","<mo>&#x03C0;</mo>", fdata); 
-
-								// *********end***********
 								//****MathML regex added***************
 								
 								//abs
@@ -138,16 +138,29 @@ readdir("./QTI/").then( function(files) {
 								fdata=fdata.replace(/(<mo>\\<\/mo><mi>d<\/mi><mi>f<\/mi><mi>r<\/mi><mi>a<\/mi><mi>c<\/mi>)(<mrow>)(<mn>\d+<\/mn>)(<\/mrow>)(<mrow>)(<mn>\d+<\/mn>)(<\/mrow>)/g,"<mfrac>$3$6</mfrac>");
 									
 								//left
-								fdata1=fdata.replace(/(<mo>&#x2264;<\/mo><mi>f<\/mi><mi>t<\/mi><mo>&#x007B;<\/mo>)(<mn>)/g,"<mo>{</mo><mrow>$2");
+								fdata=fdata.replace(/(<mo>&#x2264;<\/mo><mi>f<\/mi><mi>t<\/mi><mo>&#x007B;<\/mo>)(.*)(<mo>\\<\/mo><mi>r<\/mi><mi>i<\/mi><mi>g<\/mi><mi>h<\/mi><mi>t<\/mi><mo>&#x007D;<\/mo>)/g, "<mo>{</mo><mrow>$2</mrow><mo>}</mo>");
+
+								//sqrt
+								fdata=fdata.replace(/(<mo>\\<\/mo><mi>s<\/mi><mi>q<\/mi><mi>r<\/mi><mi>t<\/mi><mo>\[<\/mo>)(<[a-z]+>[0-9.a-z]+<\/[a-z]+>)(<mo>\]<\/mo>)(<mrow><[a-z]+>[a-z0-9.]+<\/[a-z]+><\/mrow>)/g, "<mroot>$4$2</mroot>");
 								
-								fdata=fdata1.replace(/(<\/mn><mo>\\<\/mo><mi>r<\/mi><mi>i<\/mi><mi>g<\/mi><mi>h<\/mi><mi>t<\/mi><mo>&#x007D;<\/mo>)/g,"</mn></mrow><mo>}</mo>");
+								fdata=fdata.replace(/(<mo>\\<\/mo><mi>s<\/mi><mi>q<\/mi><mi>r<\/mi><mi>t<\/mi><mo>\[<\/mo>)(<[a-z]+>[a-z0-9\.]+<\/[a-z]+>)(<mo>\]<\/mo>)(<mrow><[a-z]+>[a-z0-9.+-]+<\/[a-z]+><[a-z]+>[a-z0-9.+-]+<\/[a-z]+><[a-z]+>[a-z0-9.+-]+<\/[a-z]+><\/mrow>)/g, "<mroot>$4$2</mroot>");
+
+								fdata=fdata.replace(/(<mo>\\<\/mo><mi>s<\/mi><mi>q<\/mi><mi>r<\/mi><mi>t<\/mi><mo>\[<\/mo>)(<[a-z]+>[a-z0-9\.]+<\/[a-z]+>)(<mo>\]<\/mo>)(<mrow><msup>.*<\/msup><\/mrow>)/g, "<mroot>$4$2</mroot>");
+
+								fdata=fdata.replace(/(<mo>\\<\/mo><mi>s<\/mi><mi>q<\/mi><mi>r<\/mi><mi>t<\/mi><mo>\[<\/mo>)(<[a-z]+>[a-z0-9\.]+<\/[a-z]+>)(<mo>\]<\/mo>)(<mrow><[a-z]+>[a-z0-9.+-]+<\/[a-z]+><[a-z]+>[a-z0-9.+-]+<\/[a-z]+><[a-z]+>[a-z0-9.+-]+<\/[a-z]+><[a-z]+>[a-z0-9.+-]+<\/[a-z]+><\/mrow>)/g, "<mroot>$4$2</mroot>");
+
+
+								fdata=fdata.replace(/(<mo>\\<\/mo><mi>s<\/mi><mi>q<\/mi><mi>r<\/mi><mi>t<\/mi><mo>\[<\/mo>)(<[a-z]+>[a-z0-9\.]+<\/[a-z]+>)(<mo>\]<\/mo>)(<msup><mrow>.*<\/mrow><\/msup>)/g, "<mroot>$4$2</mroot>");
+																
+								fdata=fdata.replace(/(<mo>\\<\/mo><mi>s<\/mi><mi>q<\/mi><mi>r<\/mi><mi>t<\/mi><mo>\[<\/mo>)(<[a-z]+>[0-9.a-z]+<\/[a-z]+>)(<mo>\]<\/mo>)(<mrow>)(<[a-z]+>[a-z0-9.+-]+<\/[a-z]+><[a-z]+>[a-z0-9.+-]+<\/[a-z]+>)(<\/mrow>)/g, "<mroot><mrow>$5</mrow>$2</mroot>");
+
 								//**********end***********
-								
+														
 								fs.writeFileSync(file, fdata);	
 								}
                      }
 				
-							fs.appendFileSync( LogfileName , ""+ file +" is modified for MathML conversion\n", function (err) {
+							fs.appendFileSync( LogfileName , ""+ file+" is modified for MathML conversion\n", function (err) {
 							if (err) throw err; });	
 							counter++;
 							
