@@ -41,6 +41,12 @@ readdir("./QTI/").then( function(files) {
 						sIndex = fdata.indexOf("<dheerajG>");
 						eIndex = fdata.indexOf("</dheerajG>", sIndex+10);                                                    
 						mEquation = fdata.substring(sIndex+10, eIndex);
+						
+						if (mEquation.indexOf("begin{array}") == -1 && 
+								mEquation.indexOf("begin{align}") == -1 &&
+									mEquation.indexOf("begin{cases}") == -1 &&
+									mEquation.indexOf("begin{aligned}") == -1){
+										
 							//console.log("*********** MathML Conversion ***********");
 							upEquation = replaceall("\\\\", "\\", mEquation);
 							// Replace backward slash with sapce 
@@ -48,7 +54,11 @@ readdir("./QTI/").then( function(files) {
 							//console.log("upEquation "+ upEquation);
 							mathmlstr=Translator.LaTeXtoMathML(upEquation);
 							//console.log("mathmlstr "+ mathmlstr);
-							
+							}
+							else {
+								
+								mathmlstr = "\\\\("+mEquation+"\\\\)";
+							}
 							//Removing internal tags <mtr>,<mtd> in <mtable> 
 							mtable = mathmlstr.match(/<mtable>/g);
 							mtable = (mtable == undefined) ? 0 : mtable.length;
