@@ -1,6 +1,6 @@
 const imagemin = require('imagemin');
-const imageminJpegtran = require('imagemin-jpegtran');
 const imageminPngquant = require('imagemin-pngquant');
+const Jimp = require('jimp');
 
 const fs = require("fs");
 const path = require("path");
@@ -32,12 +32,32 @@ for(let i=0; imgFileArray.length > i; i++) {
 		const files = imagemin([uPath2], {
         destination: uPath3,
         plugins: [
-            imageminJpegtran(),
             imageminPngquant({
-                quality: [0.3, 0.5]
+                quality: [0.5, 0.5]
             })
         ]
     });
+
+	}
+	 
+	if( i == imgFileArray.length-1) { 
+	setTimeout(function(){ jpgOptimize();}, 1000);
+	}
+}
+
+function jpgOptimize() {
+	for(let j=0; imgFileArray.length > j; j++) {
+		if (imgFileArray[j].indexOf(".jpg") != -1 ) {
+		let jPath = imgFileArray[j].toString();
+		let jPath2 = jPath.replace(/\\/g, "/");
+		let jPath3 = jPath2.replace(/images/g, "build");
+		Jimp.read(jPath2, (err, dkg) => {
+			if (err) throw err;
+			dkg
+			.quality(50) // set JPEG quality
+			.write(jPath3); // save
+			});
+		}
 
 	}
 }
