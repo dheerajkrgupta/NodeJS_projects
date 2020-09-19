@@ -23,8 +23,7 @@ const localFiles = function(dirPath, arrayOfFiles) {
 const imgFileArray = localFiles("images/");
 
 for(let i=0; imgFileArray.length > i; i++) {
-	if(imgFileArray[i].indexOf(".png") != -1 || imgFileArray[i].indexOf(".jpg") != -1  ) {
-		
+	if(imgFileArray[i].indexOf(".png") != -1) {
 		let uPath = imgFileArray[i].toString();
 		let uPath2 = uPath.replace(/\\/g, "/");
 		let lastIndex = uPath2.lastIndexOf("/");
@@ -37,11 +36,10 @@ for(let i=0; imgFileArray.length > i; i++) {
             })
         ]
     });
-
-	}
+}
 	 
 	if( i == imgFileArray.length-1) { 
-	setTimeout(function(){ jpgOptimize();}, 1000);
+	setTimeout(function(){ jpgOptimize();}, 1600);
 	}
 }
 
@@ -58,6 +56,5 @@ function jpgOptimize() {
 			.write(jPath3); // save
 			});
 		}
-
 	}
 }
