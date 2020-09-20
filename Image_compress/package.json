@@ -1,12 +1,12 @@
 {
-  "name": "image-opt",
+  "name": "image-optimizer",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "nec": "node index"
+    "opt": "node index"
   },
-  "author": "",
+  "author": "Dheeraj Kumar",
   "license": "ISC",
   "dependencies": {
     "imagemin": "^7.0.1",
