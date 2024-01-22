@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protected Page</title>
+  <style>
+    body {
+            background: linear-gradient(to right, #bdc3c7, #a8bcc6);
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+    div {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h2>Protected Page</h2>
+    <p>Welcome to the protected page!</p>
+    <p id="userData"></p>
+  </div>
+
+  <script>
+    async function fetchProtectedData() {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        window.location.href = '/';
+        return;
+      }
+
+      const response = await fetch('http://localhost:3000/protected', {
+        headers: {
+          'Authorization': token,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        document.getElementById('userData').innerText = `User: ${data.user.username}, ID: ${data.user.id}`;
+      } else {
+        window.location.href = '/';
+      }
+    }
+
+    fetchProtectedData();
+  </script>
+</body>
+</html>

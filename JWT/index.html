@@ -1,1 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Login Page</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #bdc3c7, #a8bcc6);
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, Helvetica, sans-serif;
+        }
 
+        .login-container {
+            background-color: #ffffff;
+            padding: 20px;
+            min-width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-form {
+            margin-top: 20px;
+        }
+        #message {
+          padding: 5px;
+          min-height: 50px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2 class="text-center mb-4">Login</h2>
+    <form class="login-form">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" autocomplete class="form-control" id="username" placeholder="Enter your username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" autocomplete class="form-control" id="password" placeholder="Enter your password">
+        </div>
+        <button type="button" onclick="login()" class="btn btn-primary btn-block">Login</button>
+    </form>
+    <div id="message"></div>
+</div>
+
+<script>
+    
+  async function login() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      const response = await fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem('token', data.token);
+        window.location.href = '/protected.html';
+      } else {
+        document.getElementById('message').innerText = data.message;
+      }
+    }
+  </script>
+</body>
+</html>
