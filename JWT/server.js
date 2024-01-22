@@ -6,6 +6,7 @@ const app = express();
 app.use(cors());
 const PORT = process.env.PORT || 3000;
 const secretKey = 'your-secret-key'; // Replace with a strong secret key
+const tokenExpiration = '1h'; // Token will expire in 1 hour(e.g., '15m' for 15 minutes, '1h' for 1 hour, '7d' for 7 days)
 
 app.use(express.json());
 
@@ -36,7 +37,7 @@ app.post('/login', (req, res) => {
     return res.status(401).json({ message: 'Invalid credentials' });
   }
 
-  const token = jwt.sign({ username: user.username, id: user.id }, secretKey);
+  const token = jwt.sign({ username: user.username, id: user.id }, secretKey, { expiresIn: tokenExpiration });
   res.json({ token });
 });
 
