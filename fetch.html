@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch API</title>
+</head>
+
+<body>
+
+    <h1> Fetch data using Streams API</h1>
+    
+    <script>
+        
+async function fetchData(url) {
+    try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch data from ${url}`);
+        }
+
+        const decoder = new TextDecoderStream('utf-8');
+        const reader = response.body.pipeThrough(decoder).getReader();
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) {
+                break;
+            }
+            console.log('[Chunk received]: ', value);
+        }
+
+        console.log("All data chunks are received.");
+
+        // Clean up
+        reader.releaseLock();
+    } catch (error) {
+        console.error('An error occurred:', error);
+    }
+}
+
+fetchData("https://jsonplaceholder.typicode.com/posts");
+
+
+    
+</script>
+    
+</body>
+</html>
